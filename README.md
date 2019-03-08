@@ -2,7 +2,7 @@
 The basic mp3 ID3v1 tag reader based on File API and DataView API
 
 
-1. Create the instance of reader
+#### 1. Create the instance of reader
 ```    
 var file = new ID3Reader(file_to_read);
 ```
@@ -13,7 +13,7 @@ EG,
 - Select it ```var input = document.querySelector('input')```
 - Select the first file ```var file = input.files[0]``` and paste it to ID3Reader
 
-2. Use the *__read(encodeType, callback)__* method
+#### 2. Use the *__read(encodeType, callback)__* method
 where
 - encodeType - type of encoding text like *('utf-8','windows-1251', 'iso-8859-2', etc..)*. See the full list of encoder types here - https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/TextDecoder 
 - callback - callback function that returns object with tags and file info
@@ -23,4 +23,22 @@ EG,
 file.read('cp1251',function(data){
     console.log(data)
 })
+```
+#### 3. Returned data
+The method __read()__ will return object with metadata
+
+```
+{
+    TAG: "TAG", 
+    Title: "Childhood's End", 
+    Artist: "Iron Maiden", 
+    Album: "Fear Of The Dark", 
+    Year: "1992",
+    File Info: {
+        Last Modified: Wed Sep 02 2015 19:57:45 GMT+0300 (Moscow Standard Time) {}
+        Name: "Iron Maiden - Childhood's End.mp3"
+        Size: "10.75 mb"
+        Type: "audio/mp3"
+    }
+}
 ```
