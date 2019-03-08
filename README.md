@@ -21,6 +21,6 @@ where
 EG,
 ```js
 file.read('cp1251',function(data){
-        console.log(data)
-    })
+    console.log(data)
+})
 ```
