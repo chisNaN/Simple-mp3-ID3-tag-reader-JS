@@ -15,7 +15,7 @@ EG,
 
 2. Use the *__read(encodeType, callback)__* method
 where
-- encodeType - type of encoding text. like('utf-8','windows-1251', 'iso-8859-2', etc..). See the full list of encoder types here - https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/TextDecoder 
+- encodeType - type of encoding text like *('utf-8','windows-1251', 'iso-8859-2', etc..)*. See the full list of encoder types here - https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/TextDecoder 
 - callback - callback function that returns object with tags and file info
 
 EG,
