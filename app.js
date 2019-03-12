@@ -46,7 +46,7 @@ ID3Reader.prototype.read = function(encodeType,callback){
                 'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
                 'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
                 'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
-                'Comment':  self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
+                'Comment':  (self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28))== '') ? 'no comment' : self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
                 'Track №':  dataView.getUint8(126).toString(),
                 'genre':    self.GET_GENRE(dataView.getUint8(127)),
                 'File Info': {
