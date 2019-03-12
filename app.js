@@ -5,6 +5,19 @@ var button = document.querySelector('button');
 // Главный класс
 var ID3Reader = function(file){
     this.file = file;
+    this.GENRES = [
+        "Blues","Classic Rock","Country","Dance","Disco","Funk","Grunge","Hip-Hop","Jazz","Metal","New Age","Oldies","Other","Pop",
+        "R&B","Rap","Reggae","Rock","Techno","Industrial","Alternative","Ska","Death Metal","Pranks","Soundtrack","Euro-Techno",
+        "Ambient","Trip-Hop","Vocal","Jazz+Funk","Fusion","Trance","Classical","Instrumental","Acid","House",
+        "Game","Sound Clip","Gospel","Noise","AlternRock","Bass","Soul","Punk","Space","Meditative","Instrumental Pop",
+        "Instrumental Rock","Ethnic","Gothic","Darkwave","Techno-Industrial","Electronic","Pop-Folk","Eurodance","Dream",
+        "Southern Rock","Comedy","Cult","Gangsta","Top 40","Christian Rap","Pop/Funk","Jungle","Native American","Cabaret",
+        "New Wave","Psychadelic","Rave","Showtunes","Trailer","Lo-Fi","Tribal","Acid Punk","Acid Jazz","Polka","Retro","Musical",
+        "Rock & Roll","Hard Rock","Folk","Folk-Rock","National Folk","Swing","Fast Fusion","Bebob","Latin","Revival","Celtic","Bluegrass",
+        "Avantgarde","Gothic Rock","Progressive Rock","Psychedelic Rock","Symphonic Rock","Slow Rock","Big Band","Chorus","Easy Listening",
+        "Acoustic","Humour","Speech","Chanson","Opera","Chamber Music","Sonata","Symphony","Booty Bass","Primus","Porn Groove","Satire",
+        "Slow Jam","Club","Tango","Samba","Folklore","Ballad","Power Ballad","Rhythmic Soul","Freestyle","Duet","Punk Rock","Drum Solo",
+        "A capella","Euro-House","Dance Hall"];
 }
 // Чтение файла побитово
 ID3Reader.prototype.read = function(encodeType,callback){
@@ -17,21 +30,28 @@ ID3Reader.prototype.read = function(encodeType,callback){
         var buff = evt.target.result;
         var dataView = new DataView(buff);
         
-        // Отправляем в callback
-        callback({
-            'TAG':      self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3)),
-            'Title':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 3, 30)),
-            'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
-            'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
-            'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
-            'File Info': {
-                'Name': self.file.name,
-                'Last Modified': new Date(self.file.lastModified),
-                'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
-                'Type': self.file.type
-            }
-            
-        })
+        if(self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3))=== 'TAG') {
+            // Отправляем в callback
+            callback({
+                'Title':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 3, 30)),
+                'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
+                'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
+                'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
+                'Comment':  self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
+                'Track №':  dataView.getUint8(126).toString(),
+                'genre':    self.GET_GENRE(dataView.getUint8(127)),
+                'File Info': {
+                    'Name': self.file.name,
+                    'Last Modified': new Date(self.file.lastModified),
+                    'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
+                    'Type': self.file.type
+                }
+                
+            })
+        } else {
+            throw new Error('marker TAG not found')
+        }
+        
     }
     reader.readAsArrayBuffer(blob);
 }
@@ -54,6 +74,11 @@ ID3Reader.prototype.STRING_DECODE = function(encode, data){
     var bytes = new Uint8Array(data);
     return decoder.decode(bytes).trim();
 }
+ID3Reader.prototype.GET_GENRE = function(number){
+    
+    return this.GENRES[number];
+}
+
 
 button.onclick = function(){
         
