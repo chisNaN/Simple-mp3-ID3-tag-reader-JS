@@ -48,10 +48,10 @@ ID3Reader.prototype.read = function(encodeType,callback){
                 'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
                 'Comment':  (self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28))== '') ? 'no comment' : self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
                 'Track №':  dataView.getUint8(126).toString(),
-                'genre':    self.GET_GENRE(dataView.getUint8(127)),
+                'Genre':    self.GET_GENRE(dataView.getUint8(127)),
                 'File Info': {
                     'Name': self.file.name,
-                    'Last Modified': new Date(self.file.lastModified),
+                    //'Last Modified': new Date(self.file.lastModified),
                     'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
                     'Type': self.file.type
                 }
@@ -60,7 +60,7 @@ ID3Reader.prototype.read = function(encodeType,callback){
         } else {
             throw new Error('marker TAG not found')
         }
-        
+ 
     }
     reader.readAsArrayBuffer(blob);
 }
@@ -86,7 +86,10 @@ ID3Reader.prototype.STRING_DECODE = function(encode, data){
 ID3Reader.prototype.GET_GENRE = function(number){
     return (this.GENRES[number]) ? this.GENRES[number] : 'no genre' ;
 }
+// Устанавливаем тэг в файл 
+ID3Reader.prototype.setTag = function(tag){
 
+}
 
 button.onclick = function(){  
     let file = new ID3Reader(fileElm.files[0]);
