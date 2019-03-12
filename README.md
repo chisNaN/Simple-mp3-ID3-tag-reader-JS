@@ -27,7 +27,12 @@ file.read('cp1251',function(data){
 #### 3. Returned data
 The method __read()__ will return object with metadata
 
-```
+```js
+file.read('cp1251',function(data){
+    console.log(data)
+})
+
+// returns
 {
     Album: "Fear Of The Dark"
     Artist: "Iron Maiden"
