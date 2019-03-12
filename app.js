@@ -39,27 +39,27 @@ ID3Reader.prototype.read = function(encodeType,callback){
         var buff = evt.target.result;
         var dataView = new DataView(buff);
         
-        if(self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3))=== 'TAG') {
-            // Отправляем в callback
-            callback({
-                'Title':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 3, 30)),
-                'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
-                'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
-                'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
-                'Comment':  (self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28))== '') ? 'no comment' : self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
-                'Track №':  dataView.getUint8(126).toString(),
-                'Genre':    self.GET_GENRE(dataView.getUint8(127)),
-                'File Info': {
-                    'Name': self.file.name,
-                    //'Last Modified': new Date(self.file.lastModified),
-                    'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
-                    'Type': self.file.type
-                }
+        // if(self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3))=== 'TAG') {
+        //     // Отправляем в callback
+        //     callback({
+        //         'Title':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 3, 30)),
+        //         'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
+        //         'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
+        //         'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
+        //         'Comment':  (self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28))== '') ? 'no comment' : self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
+        //         'Track №':  dataView.getUint8(126).toString(),
+        //         'Genre':    self.GET_GENRE(dataView.getUint8(127)),
+        //         'File Info': {
+        //             'Name': self.file.name,
+        //             //'Last Modified': new Date(self.file.lastModified),
+        //             'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
+        //             'Type': self.file.type
+        //         }
                 
-            })
-        } else {
-            throw new Error('marker TAG not found')
-        }
+        //     })
+        // } else {
+        //     throw new Error('marker TAG not found')
+        // }
  
     }
     reader.readAsArrayBuffer(blob);
