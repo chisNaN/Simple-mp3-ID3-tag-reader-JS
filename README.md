@@ -29,16 +29,17 @@ The method __read()__ will return object with metadata
 
 ```
 {
-    TAG: "TAG", 
-    Title: "Childhood's End", 
-    Artist: "Iron Maiden", 
-    Album: "Fear Of The Dark", 
-    Year: "1992",
+    Album: "Fear Of The Dark"
+    Artist: "Iron Maiden"
+    Comment: "Только для ознакомления"
     File Info: {
-        Last Modified: Wed Sep 02 2015 19:57:45 GMT+0300 (Moscow Standard Time) {}
-        Name: "Iron Maiden - Childhood's End.mp3"
-        Size: "10.75 mb"
-        Type: "audio/mp3"
-    }
+            Name: "Iron Maiden - Childhood's End.mp3", 
+            Size: "10.75 mb", 
+            Type: "audio/mp3"
+        }
+    Genre: "Other"
+    Title: "Childhood's End"
+    Track №: "5"
+    Year: "1992"
 }
 ```
