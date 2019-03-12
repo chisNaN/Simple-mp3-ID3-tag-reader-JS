@@ -48,3 +48,14 @@ file.read('cp1251',function(data){
     Year: "1992"
 }
 ```
+where:
+- __Album__ - album of this track
+- __Artist__ - main performer/artist of this track
+- __Comment__ - comment if exist (if tag is empty this returns 'no comment')
+- __File Info__ - object with file info data (*name, size, type*)
+- __Genre__ - music genre of this track(*pop, alternative, blues etc*)
+- __Title__ - title of this track
+- __Track №__ - track number in album
+- __Year__ - year of this track
+
+if mp3 file has no metadata, this method returns error 'marker TAG not found'
