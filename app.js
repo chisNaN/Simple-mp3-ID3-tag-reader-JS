@@ -5,32 +5,87 @@ var button = document.querySelector('button');
 // Главный класс
 var ID3Reader = function(file){
     this.file = file;
-    this.GENRES = [
-        "Blues","Classic Rock","Country","Dance","Disco","Funk","Grunge","Hip-Hop","Jazz","Metal","New Age",
-        "Oldies","Other","Pop","R&B","Rap","Reggae","Rock","Techno","Industrial","Alternative","Ska","Death Metal",
-        "Pranks","Soundtrack","Euro-Techno","Ambient","Trip-Hop","Vocal","Jazz+Funk","Fusion","Trance","Classical",
-        "Instrumental","Acid","House","Game","Sound Clip","Gospel","Noise","AlternRock","Bass","Soul","Punk","Space",
-        "Meditative","Instrumental Pop","Instrumental Rock","Ethnic","Gothic","Darkwave","Techno-Industrial","Electronic",
-        "Pop-Folk","Eurodance","Dream","Southern Rock","Comedy","Cult","Gangsta","Top 40","Christian Rap","Pop/Funk",
-        "Jungle","Native American","Cabaret","New Wave","Psychadelic","Rave","Showtunes","Trailer","Lo-Fi","Tribal",
-        "Acid Punk","Acid Jazz","Polka","Retro","Musical","Rock & Roll","Hard Rock","Folk","Folk-Rock","National Folk",
-        "Swing","Fast Fusion","Bebob","Latin","Revival","Celtic","Bluegrass","Avantgarde","Gothic Rock","Progressive Rock",
-        "Psychedelic Rock","Symphonic Rock","Slow Rock","Big Band","Chorus","Easy Listening","Acoustic","Humour","Speech",
-        "Chanson","Opera","Chamber Music","Sonata","Symphony","Booty Bass","Primus","Porn Groove","Satire","Slow Jam","Club",
-        "Tango","Samba","Folklore","Ballad","Power Ballad","Rhythmic Soul","Freestyle","Duet","Punk Rock","Drum Solo",
-        "A capella","Euro-House","Dance Hall","Goa","Drum & Bass","Club-House","Hardcore Techno","Terror","Indie","BritPop",
-        "Negerpunk","Polsk Punk","Beat","Christian Gangsta Rap","Heavy Metal","Black Metal","Crossover","Contemporary Christian",
-        "Christian rock","Merengue","Salsa","Thrash Metal","Anime","Jpop", "Synthpop","Abstract","Art Rock","Baroque",
-        "Bhangra","Big beat","Breakbeat","Chillout","Downtempo","Dub","EBM","Eclectic","Electro","Electroclash","Emo",
-        "Experimental","Garage","Global","IDM","Illbient","Industro-Goth","Jam Band","Krautrock","Leftfield","Lounge",
-        "Math Rock","New Romantic","Nu-Breakz","Post-Punk","Post-Rock","Psytrance","Shoegaze","Space Rock","Trop Rock",
-        "World Music","Neoclassical","Audiobook","Audio theatre","Neue Deutsche Welle","Podcast","Indie-Rock","G-Funk",
-        "Dubstep","Garage Rock","Psybient"
+    this.TYPE_TAGS = [
+        'AENC',    // Audio encryption
+        'APIC',    // Attached picture
+        'COMM',    // Comments
+        'COMR',    // Commercial frame
+        'ENCR',    // Encryption method registration
+        'EQUA',    // Equalization
+        'ETCO',    // Event timing codes
+        'GEOB',    // General encapsulated object
+        'GRID',    // Group identification registration
+        'IPLS',    // Involved people list
+        'LINK',    // Linked information
+        'MCDI',    // Music CD identifier
+        'MLLT',    // MPEG location lookup table
+        'OWNE',    // Ownership frame
+        'PRIV',    // Private frame
+        'PCNT',    // Play counter
+        'POPM',    // Popularimeter
+        'POSS',    // Position synchronisation frame
+        'RBUF',    // Recommended buffer size
+        'RVAD',    // Relative volume adjustment
+        'RVRB',    // Reverb
+        'SYLT',    // Synchronized lyric/text
+        'SYTC',    // Synchronized tempo codes
+        'TALB',    // Album/Movie/Show title
+        'TBPM',    // BPM (beats per minute)
+        'TCOM',    // Composer
+        'TCON',    // Content type
+        'TCOP',    // Copyright message
+        'TDAT',    // Date
+        'TDLY',    // Playlist delay
+        'TENC',    // Encoded by
+        'TEXT',    // Lyricist/Text writer
+        'TFLT',    // File type
+        'TIME',    // Time
+        'TIT1',    // Content group description
+        'TIT2',    // Title/songname/content description
+        'TIT3',    // Subtitle/Description refinement
+        'TKEY',    // Initial key
+        'TLAN',    // Language(s)
+        'TLEN',    // Length
+        'TMED',    // Media type
+        'TOAL',    // Original album/movie/show title
+        'TOFN',    // Original filename
+        'TOLY',    // Original lyricist(s)/text writer(s)
+        'TOPE',    // Original artist(s)/performer(s)
+        'TORY',    // Original release year
+        'TOWN',    // File owner/licensee
+        'TPE1',    // Lead performer(s)/Soloist(s)
+        'TPE2',    // Band/orchestra/accompaniment
+        'TPE3',    // Conductor/performer refinement
+        'TPE4',    // Interpreted, remixed, or otherwise modified by
+        'TPOS',    // Part of a set
+        'TPUB',    // Publisher
+        'TRCK',    // Track number/Position in set
+        'TRDA',    // Recording dates
+        'TRSN',    // Internet radio station name
+        'TRSO',    // Internet radio station owner
+        'TSIZ',    // Size
+        'TSRC',    // ISRC (international standard recording code)
+        'TSSE',    // Software/Hardware and settings used for encoding
+        'TYER',    // Year
+        'TXXX',    // User defined text information frame
+        'UFID',    // Unique file identifier
+        'USER',    // Terms of use
+        'USLT',    // Unsychronized lyric/text transcription
+        'WCOM',    // Commercial information
+        'WCOP',    // Copyright/Legal information
+        'WOAF',    // Official audio file webpage
+        'WOAR',    // Official artist/performer webpage
+        'WOAS',    // Official audio source webpage
+        'WORS',    // Official internet radio station homepage
+        'WPAY',    // Payment
+        'WPUB',    // Publishers official webpage
+        'WXXX',    // User defined URL link frame
+        "TDRC"    // Unknown, possibly year !!!
     ];
 }
 // Чтение файла побитово
 ID3Reader.prototype.read = function(encodeType,callback){
-    var blob = this.file.slice(this.file.size - 128, this.file.size);
+    var blob = this.file.slice(0, this.file.size);
     var reader = new FileReader();
     var self = this;
     (encodeType === null || encodeType==='') ? encodeType = 'utf-8' : encodeType;
@@ -39,26 +94,26 @@ ID3Reader.prototype.read = function(encodeType,callback){
         var buff = evt.target.result;
         var dataView = new DataView(buff);
         
-        // if(self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3))=== 'TAG') {
-        //     // Отправляем в callback
-        //     callback({
-        //         'Title':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 3, 30)),
-        //         'Artist':   self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 33, 30)),
-        //         'Album':    self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 63, 30)),
-        //         'Year':     self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 93, 4)),
-        //         'Comment':  (self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28))== '') ? 'no comment' : self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 97, 28)),
-        //         'Track №':  dataView.getUint8(126).toString(),
-        //         'Genre':    self.GET_GENRE(dataView.getUint8(127)),
-        //         'File Info': {
-        //             'Name': self.file.name,
-        //             //'Last Modified': new Date(self.file.lastModified),
-        //             'Size': ((self.file.size) / (1024*1024)).toFixed(2) + ` mb`,
-        //             'Type': self.file.type
-        //         }
-                
-        //     })
-        // } else {
-        //     throw new Error('marker TAG not found')
+        console.log( 'ID3 >> ',self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 0, 3) ))
+        console.log( 'FRAME_NAME >> ', self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 10, 4) ))
+        console.log( 'FRAME_SIZE >> ', self.STRING_PARSE(dataView, 14, 4) )
+        console.log( 'FRAME_FLAGS >> ', self.STRING_PARSE(dataView, 18, 2) )
+        console.log( 'FRAME_DATA >> ', self.STRING_DECODE(encodeType,self.STRING_PARSE(dataView, 20, 44) ))
+
+        // Первые 10 байт - заголовок тега >> ID3 + ....
+        // Тег состоит из фреймов.
+        // Фрейм в свою очередь имеет заголовок и значение фрейма.
+        // Заголовок всегда занимает 10 байт.
+        // В котором содержится параметры фрейма: ID (4 байта), размер (4 байта), флаги (2 байта)
+
+        // From: https://habr.com/ru/post/140695/
+        //в данном виде хранятся размеры тега  размеры фрейма
+        // function UnSynchsafeInt(buffer){
+        //     var value=0;
+        //     for(var i=0,length=buffer.length;i<length;i++){
+        //         value+=(buffer.byteAt(i)&0x7F)*Math.pow(Math.pow(2,7),length-i-1);
+        //     }
+        //     return value;
         // }
  
     }
@@ -81,7 +136,7 @@ ID3Reader.prototype.STRING_PARSE = function(dataView,offset,length){
 ID3Reader.prototype.STRING_DECODE = function(encode, data){
     var decoder = new TextDecoder(encode);
     var bytes = new Uint8Array(data);
-    return decoder.decode(bytes).trim();
+    return decoder.decode(bytes);
 }
 ID3Reader.prototype.GET_GENRE = function(number){
     return (this.GENRES[number]) ? this.GENRES[number] : 'no genre' ;
@@ -93,7 +148,7 @@ ID3Reader.prototype.setTag = function(tag){
 
 button.onclick = function(){  
     let file = new ID3Reader(fileElm.files[0]);
-    file.read('cp1251',function(data){
+    file.read('',function(data){
         console.log(data)
     })
 }
