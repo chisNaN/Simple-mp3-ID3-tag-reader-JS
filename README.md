@@ -59,3 +59,5 @@ where:
 - __Year__ - year of this track
 
 if mp3 file has no metadata, this method returns error 'marker TAG not found'
+
+#### 4. SOON > FULL ID3 v2 Reader!
